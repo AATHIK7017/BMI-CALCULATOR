@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BMI Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .header {
+      background-color: #1e1e1e;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      width: 100%;
+      font-size: 24px;
+    }
+    .container {
+      margin-top: 30px;
+      width: 300px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 8px 12px;
+      background-color: #ddd;
+      border: none;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">BMI Calculator</div>
+  <div class="container">
+    <label>Please enter your name</label>
+    <input type="text" id="name" placeholder="Your Name">
+    
+    <label>Enter your height in cm:</label>
+    <input type="number" id="height" placeholder="Height in cm">
+    
+    <label>Enter your weight in kg :</label>
+    <input type="number" id="weight" placeholder="Weight in kg">
+    
+    <div class="result" id="output"></div>
+    
+    <button onclick="calculateBMI()">Submit</button>
+  </div>
+
+  <script>
+    function calculateBMI() {
+      const name = document.getElementById("name").value || "Guest";
+      const height = parseFloat(document.getElementById("height").value);
+      const weight = parseFloat(document.getElementById("weight").value);
+      const output = document.getElementById("output");
+
+      if (!height || !weight) {
+        output.innerHTML = "Please enter valid height and weight.";
+        return;
+      }
+
+      const heightInMeters = height / 100;
+      const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(2);
+      const time = new Date().toLocaleTimeString();
+
+      let status = "";
+      if (bmi < 18.5) {
+        status = "You are underweight";
+      } else if (bmi < 24.9) {
+        status = "You are in a healthy weight range";
+      } else if (bmi < 29.9) {
+        status = "You are overweight";
+      } else {
+        status = "You are obese";
+      }
+
+      const minWeight = (18.5 * heightInMeters * heightInMeters).toFixed(0);
+      const maxWeight = (24.9 * heightInMeters * heightInMeters).toFixed(0);
+
+      output.innerHTML = `
+        Hello ${name}, How are you my friend? It's currently ${time} where you are living.<br>
+        Your BMI is ${bmi}<br>
+        ${status}<br>
+        Your suggested weight range is between ${minWeight} - ${maxWeight}
+      `;
+    }
+  </script>
+</body>
+</html>
